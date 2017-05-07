@@ -5,6 +5,10 @@ namespace MadampeTeaEstate.PMS.Controllers
 {
     public class HomeController : BaseController
     {
+        /// <summary>
+        /// This is the login page. From here user is redirected accordin to the user`s role. 
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         [InitializeSimpleMembership]
         public ActionResult Index()
