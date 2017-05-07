@@ -1,0 +1,165 @@
+﻿@model MadampeTeaEstate.PMS.Models.AddEmployeeModel
+@{
+    ViewBag.Title = "Add Employee Details";
+}
+
+
+<script type="text/javascript">
+
+    $(function () {
+
+        var links = $('a[href*=page], a[href*=sort]'), form = $('form');
+        links.click(function () {
+            form.attr("action", this.href);
+            $(this).attr("href", "javascript:");
+            form.submit();
+        });
+
+    });
+
+    function redirectToHome() {
+        window.location = "/Home/Index";
+    }
+
+    function confirmSave() {
+
+        if (confirm('This will save the details, do you want to continue?')) {
+
+            return true;
+        }
+        return false;
+    }
+
+    </script>
+
+
+<style>
+    table, td, th {
+        border: 1px solid navy;
+        border-collapse: collapse;
+        padding: 5px;
+    }
+
+    th {
+        border: 1px solid black;
+        background-color: steelblue;
+        color: white;
+    }
+
+    .tableborderless {
+        border: 0px;
+    }
+
+        .tableborderless td, tr {
+            border: 0px;
+            padding: 5px;
+        }
+
+    .popupWindow {
+        background-color: whitesmoke;
+        width: 400px;
+        padding: 20px;
+    }
+</style>
+
+<hgroup class="title">
+    <h1> <font face="verdana" color="DarkBlue"> Add Crop Details</font></h1>
+</hgroup>
+<br />
+
+<section id="AddEmployee">
+
+
+    @if (Model.IsRedirectedAfterSave)
+    {
+        <div id="SaveSuccessMessage" class="popupWindow">
+            <font color="Red">@Model.OpperationMessage</font>
+            <br /><br />
+            <input type="button" value="OK" onclick=" closeSuccessMessage() " />
+        </div>
+    }
+
+    <div id="MenuItems">
+
+        @using (Ajax.BeginForm("SaveEmployeeDetails", new AjaxOptions { HttpMethod = "POST", OnSuccess = "submitSuccess" }))
+        {
+
+            <table class="tableborderless">
+                <tr>
+                    <td style="width:200px;">
+                        Employee Id
+              </td>
+                    <td>
+                        @Html.TextBox("EmployeeId", Model.EmployeeId, new { required = "required", style = "width: 230px;" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Known As
+                    </td>
+                    <td>
+                        @Html.TextBox("KnownAs", Model.KnownAs, new { required = "required", style = "width: 230px;" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        First Name
+                    </td>
+                    <td>
+                        @Html.TextBox("FirstName", Model.FirstName, new { required = "required", style = "width: 230px;" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Last Name
+                    </td>
+                    <td>
+                        @Html.TextBox("LastName", Model.LastName, new { required = "required", style = "width: 230px;" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Joined Date
+                    </td>
+                    <td>
+                        @Html.TextBox("JoinedDate", String.Format("{0:d}", Model.JoinedDate), new { type = "date", required = "required", style = "width: 230px;" })
+
+
+                    </td>
+                </tr>
+
+            </table>
+            <br /> <br />
+
+            <button type="submit" name="saveButton" onclick="javascript:return confirmSave();">Save Details</button>
+
+            <button type="button" onclick="javascript:redirectToHome();">Cancel</button>
+
+
+        }
+
+    </div>
+</section>
+
+<br/><br/>
+
+<section  id="details">
+    
+    @using (@Html.BeginForm())
+    {
+        var grid = new WebGrid(Model.EmployeeDetailsList, canSort: false);
+        <div>
+            @grid.GetHtml(columns:
+                                        grid.Columns
+                                        (
+                                                 grid.Column("EmpId", "Employee Id"),
+                                                 grid.Column("KnownAs", "Known As"),
+                                                 grid.Column("FirstName", "First Name"),
+                                                 grid.Column("LastName", "Last Name"),
+                                                  grid.Column("JoinedDate", "Joined Date")
+                                                    ), mode: WebGridPagerModes.Numeric)
+
+        </div>
+    }
+
+</section>

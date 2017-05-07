@@ -1,0 +1,173 @@
+﻿@model MadampeTeaEstate.PMS.Models.GenerateReportModel
+@{
+    ViewBag.Title = "GenerateReport";
+}
+
+<script type="text/javascript">
+
+
+    function SaveToExcel() {
+
+        var requestData = {
+            cropNumber: $("#CropNumber").val(),
+            searchFromDate: $("#SearchFromDate").val(),
+            searchToDate: $("#SearchToDate").val()
+        };
+
+        $.post("/Admin/SaveToExcel", requestData, function (responseData) {
+        });
+    }
+
+
+    $(function () {
+
+        var links = $('a[href*=page], a[href*=sort]'), form = $('form');
+        links.click(function () {
+            form.attr("action", this.href);
+            $(this).attr("href", "javascript:");
+            form.submit();
+        });
+
+    });
+
+
+    function redirectToHome() {
+        window.location = "/Home/Index";
+    }
+
+</script>
+
+<style>
+    table, td, th {
+        border: 1px solid navy;
+        border-collapse: collapse;
+        padding: 5px;
+    }
+
+    th {
+        border: 1px solid black;
+        background-color: steelblue;
+        color: white;
+    }
+
+    .tableborderless {
+        border: 0px;
+    }
+
+        .tableborderless td, tr {
+            border: 0px;
+            padding: 5px;
+        }
+</style>
+
+<hgroup class="title">
+    <h1> <font face="verdana" color="DarkBlue"> Generate Reports</font></h1>
+</hgroup>
+<br />
+
+
+<section class="SearchCrops">
+
+    @using (@Html.BeginForm())
+    {
+
+        var grid = new WebGrid(Model.CropDetailsList, canSort: false);
+
+        <table class="tableborderless">
+
+            <tr>
+                <td style="">
+                    Search From Date :
+                </td>
+                <td>
+                    @Html.TextBox("SearchFromDate", String.Format("{0:d}", Model.SearchFromDate), new { @class = "datefield", type = "date", required = "required" })
+                </td>
+                <td>
+                    Search To Date :
+                </td>
+                <td>
+                    @Html.TextBox("SearchToDate", String.Format("{0:d}", Model.SearchToDate), new { @class = "datefield", type = "date", required = "required" })
+                </td>
+            </tr>
+            @*<tr>
+                    <td>
+                        Crop Id :
+                    </td>
+                    <td>
+                        @Html.TextBox("CropNumber", Model.CropNumber, new { placeholder = "Type Here" })
+                    </td>
+                </tr>*@
+        </table>
+
+        <br /><br />
+
+        <button type="submit" name="saveButton">Search</button>
+
+        <button type="submit" name="reportButton" onclick="javascript:return SaveToExcel();">Generate Report</button>
+
+        <button type="button" onclick="javascript:redirectToHome();">Clear</button>
+
+        <br /><br />
+
+        <h3><font face="verdana" color="DarkBlue"> Crop Details :</font></h3>
+<br />
+
+        
+        <div>
+
+            @grid.GetHtml(columns:
+                                      grid.Columns
+                                      (
+                                     grid.Column("CropId", "Crop Id"),
+                                     grid.Column("EstateLeafWeight", "Estate Leaf Weight"),
+                                     grid.Column("BoughtLeafWeight", "Bought Leaf Weight"),
+                                     grid.Column("SupplierName", "Supplier Name"),
+                                     grid.Column("ProductionWeight", "Production Weight"),
+                                     grid.Column("ProductionStatus", "In Production")
+                                                       ), mode: WebGridPagerModes.Numeric)
+        </div>
+
+<br/>
+        
+        <h3><font face="verdana" color="DarkBlue"> Machine Alocation Details :</font></h3>
+<br />
+
+        <div>
+
+            @grid.GetHtml(columns:
+                                      grid.Columns
+                                      (
+                                      grid.Column("CropId", "Crop Id"),
+                                       grid.Column("requiredTroughMachineCount", "Trough Machine"),
+                                       grid.Column("requiredRollerMachineCount", "Roller Machine"),
+                                       grid.Column("requiredRollBreakerMachineCount", "RollBreaker Machine"),
+                                       grid.Column("requiredDryerMachineCount", "Dryer Machine"),
+                                       grid.Column("requiredSifterMachineCount", "Sifter Machine"),
+                                       grid.Column("requiredColorSorterMachineCount", "Color Sorter Machine")
+                                                       ), mode: WebGridPagerModes.Numeric)
+        </div>
+        
+      
+        <br/>
+        
+        <h3><font face="verdana" color="DarkBlue"> Employee Alocation Details :</font></h3>
+<br />
+  
+         <div>
+
+            @grid.GetHtml(columns:
+                                      grid.Columns
+                                      (
+                                        grid.Column("CropId", "Crop Id"),
+                                         grid.Column("Withering", " Withering"),
+                                         grid.Column("Rolling", "Rolling"),
+                                         grid.Column("RollBrakes", "Roll Breaker"),
+                                         grid.Column("Drying", "Drying"),
+                                         grid.Column("Sifter", "Sifter"),
+                                         grid.Column("ColorSorter", "Color Sorter")
+                                                       ), mode: WebGridPagerModes.Numeric)
+        </div>
+
+    }
+
+</section>

@@ -1,0 +1,237 @@
+﻿@model MadampeTeaEstate.PMS.Models.CropDetailsModel
+@{
+    ViewBag.Title = "Production Sehduler";
+}
+
+<script type="text/javascript">
+
+    function confirmSave() {
+
+        if (confirm('This will save the details, do you want to continue?')) {
+
+            return true;
+        }
+        return false;
+    }
+
+    function redirectToHome() {
+        window.location = "/Home/Index";
+    }
+
+
+    function closeSuccessMessage() {
+
+        $("#SaveSuccessMessage").hide();
+    }
+
+</script>
+
+<style>
+    table, td, th {
+        border: 1px solid navy;
+        border-collapse: collapse;
+        padding: 5px;
+    }
+
+    th {
+        border: 1px solid black;
+        background-color: steelblue;
+        color: white;
+    }
+
+    .tableborderless {
+        border: 0px;
+    }
+
+        .tableborderless td, tr {
+            border-padding: 5px;
+            padding: 5px;
+        }
+
+    .popupWindow {
+        background-color: whitesmoke;
+        width: 400px;
+        padding: 20px;
+    }
+</style>
+
+<hgroup class="title">
+    <h1> <font face="verdana" color="DarkBlue"> Production Scheduler</font></h1>
+</hgroup>
+
+<h3><font face="verdana" color="DarkBlue"> Pending Crop Details :</font></h3>
+<br />
+
+<section id="PendingCropDetails">
+
+    @if (Model.IsRedirectedAfterSave)
+    {
+        <div id="SaveSuccessMessage" class="popupWindow">
+            <font color="Red">@Model.OpperationMessage</font>
+            <br /><br />
+            <input type="button" value="OK" onclick=" closeSuccessMessage() " />
+        </div>
+    }
+
+    <div id="MenuItems">
+
+        @using (@Html.BeginForm())
+        {
+            var grid = new WebGrid(Model.CropDetailsList, canSort: false);
+            <div>
+                @grid.GetHtml(columns:
+                                        grid.Columns
+                                        (
+                                                grid.Column("CropId", "Crop Id"),
+                                                grid.Column("EstateLeafWeight", "Estate Weight/Kg"),
+                                                grid.Column("BoughtLeafWeight", "Bought Weight/Kg"),
+                                                grid.Column("SupplierName", "Supplier"),
+                                                grid.Column("ProductionWeight", "Production Weight/Kg"),
+                                                grid.Column("WastageWeight", "Wastage Weight/Kg"),
+                                                grid.Column("EnteredDate", "Entered On")
+                                                    ), mode: WebGridPagerModes.Numeric)
+
+            </div>
+        }
+
+        </div>
+        <br />
+
+        <h3><font face="verdana" color="DarkBlue"> Required Machine & Labour Details : </font></h3>
+
+        <br />
+
+        <table class="tableborderless">
+
+            <th>Process Name</th>
+            <th>Machine Count</th>
+            <th>Employee Count</th>
+            <tr>
+                <td style="width:170px;">
+                    Transportation
+                </td>
+                <td>
+                    N/A
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m.Transportation)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Spreading
+                </td>
+                <td>
+                    N/A
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m.Spreading)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Withering
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m.requiredTroughMachineCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m.Withering)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Rolling
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m.requiredRollerMachineCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m.Rolling)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Roll Breaking
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m.requiredRollBreakerMachineCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m.RollBrakes)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Fermentation
+                </td>
+                <td>
+                    N/A
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m.Fermentation)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Drying
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m.requiredDryerMachineCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m.Drying)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Sifting
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m.requiredSifterMachineCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m.Sifter)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Color Sorting
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m.requiredColorSorterMachineCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m.ColorSorter)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Packing & Dispatching
+                </td>
+                <td>
+                    N/A
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m.Packing)
+                </td>
+            </tr>
+
+        </table>
+
+        <br /><br />
+
+
+        @using (Ajax.BeginForm("SaveCropShedule", new AjaxOptions { HttpMethod = "POST", OnSuccess = "submitSuccess" }))
+        {
+
+            <button type="submit" name="saveButton" onclick="javascript:return confirmSave();">Save Schedule</button>
+
+            <button type="button" onclick="javascript:redirectToHome();">Cancel</button>
+        }
+
+</section>
+
+
+
+

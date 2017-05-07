@@ -1,0 +1,74 @@
+﻿@model MadampeTeaEstate.PMS.Models.LeaveDashboardModel
+@{
+    ViewBag.Title = "Employee Home";
+}
+
+<script type="text/javascript">
+
+    function closeSuccessMessage() {
+
+        $("#SaveSuccessMessage").hide();
+    }
+
+</script>
+
+<style>
+
+    .popupWindow {
+        background-color: whitesmoke;
+        width: 400px;
+        padding: 20px;
+    }
+
+</style>
+
+<hgroup class="title">
+    <h1> <font face="verdana" color="DarkBlue">Welcome to Madampe Tea-Estate </font></h1>
+    <br /><br/>
+    <h2> <font face="verdana" color="DarkBlue">Production Management System</font> </h2>
+    <br />
+</hgroup>
+
+<section class="EmployeeHomePage_Content">
+
+    @if (Model.IsRedirectedAfterSave)
+    {
+        <div id="SaveSuccessMessage" class="popupWindow">
+            <font color="Red">@Model.OpperationMessage</font>
+            <br /><br />
+            <input type="button" value="OK" onclick=" closeSuccessMessage() " />
+        </div>
+    }
+
+    <div id="MenuItems">
+
+        <h3>Choose what you want to do :</h3>
+        <br />
+
+        <h3 style="color:DarkBlue;">User Tasks</h3>
+        <br/>
+
+        <div class="float-left">
+
+            <a href="/Employee/AddCropDetails">  <img src="/Images/crop_details.jpg" alt="Crop Details" style="width: 250px;" /> </a>
+
+            &nbsp;&nbsp;&nbsp;
+
+            <a href="/Employee/PendingCropDetails">  <img src="/Images/sheduler.jpg" alt="Pending Crop Details" style="width: 250px;" /> </a>
+
+            &nbsp;&nbsp;&nbsp;
+
+            <a href="/Employee/AddSuppliers">  <img src="/Images/supplier_details.jpg" alt="Supplier Details" style="width: 250px;" /> </a>
+
+
+            @*<a href="/Employee/SearchCropDetails">  <img src="/Images/search_details.jpg" alt="Search Details" style="width: 250px;" /> </a>
+
+          
+            &nbsp;&nbsp;&nbsp;
+
+            <a href="/Employee/InProductionCropDetails">  <img src="" alt="In production Crop Details" style="width: 250px;" /> </a>*@
+
+        </div> 
+    </div>
+
+</section>

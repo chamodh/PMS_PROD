@@ -1,0 +1,123 @@
+﻿@model MadampeTeaEstate.PMS.Models.SupplierDetailsModel
+@{
+    ViewBag.Title = "Add Suppliers";
+}
+
+<script type="text/javascript">
+
+
+    function confirmSave() {
+
+        if (confirm('This will save the details, do you want to continue?')) {
+
+            return true;
+        }
+        return false;
+    }
+
+    function redirectToHome() {
+        window.location = "/Home/Index";
+    }
+
+    function closeSuccessMessage() {
+
+        $("#SaveSuccessMessage").hide();
+    }
+
+</script>
+
+<style>
+    table, td, th {
+        border: 1px solid navy;
+        border-collapse: collapse;
+        padding: 5px;
+    }
+
+    th {
+        border: 1px solid black;
+        background-color: steelblue;
+        color: white;
+    }
+
+    .tableborderless {
+        border: 0px;
+    }
+
+        .tableborderless td, tr {
+            border: 0px;
+            padding: 5px;
+        }
+
+    .popupWindow {
+        background-color: whitesmoke;
+        width: 400px;
+        padding: 20px;
+    }
+</style>
+
+<hgroup class="title">
+    <h1> <font face="verdana" color="DarkBlue"> Add Supplier Details</font></h1>
+</hgroup>
+<br />
+
+<section id="loginForm">
+
+
+    @if (Model.IsRedirectedAfterSave)
+    {
+        <div id="SaveSuccessMessage" class="popupWindow">
+            <font color="Red">@Model.OpperationMessage</font>
+            <br /><br />
+            <input type="button" value="OK" onclick=" closeSuccessMessage() " />
+        </div>
+    }
+
+    <div id="MenuItems">
+
+        @using (Ajax.BeginForm("SaveSupplierDetails", new AjaxOptions { HttpMethod = "POST", OnSuccess = "submitSuccess" }))
+        {
+
+            <table class="tableborderless">
+                <tr>
+                    <td style="width:100px;">
+                        Supplier Name
+                    </td>
+                    <td>
+                        @Html.TextBox("SupplierName", Model.SupplierName, new { style = "width: 270px;" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Supplier Id
+                    </td>
+                    <td>
+                        @Html.TextBox("SupplierId", Model.SupplierId, new { style = "width: 270px;" })
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Contact Number
+                    </td>
+                    <td>
+                        @Html.TextBox("ContactNumber", Model.ContactNumber, new { style = "width: 270px;" })
+                    </td>
+                </tr>
+
+            </table>
+            <br /> <br />
+
+            <button type="submit" name="saveButton" onclick="javascript:return confirmSave();">Save Details</button>
+
+            <button type="button" onclick="javascript:redirectToHome();">Cancel</button>
+
+
+        }
+
+        </div>
+</section>
+
+<section class="social" id="socialLoginForm">
+    <img src="/Images/crop_detail.jpg" alt="Home" style="width: 520px;" />
+</section>
+
+

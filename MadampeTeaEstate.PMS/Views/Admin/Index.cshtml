@@ -1,0 +1,100 @@
+﻿@model MadampeTeaEstate.PMS.Models.LeaveDashboardModel
+@{
+    ViewBag.Title = "Admin Home";
+}
+
+<script type="text/javascript">
+
+    function closeSuccessMessage() {
+
+        $("#SaveSuccessMessage").hide();
+    }
+
+</script>
+
+<style>
+    .popupWindow {
+        background-color: whitesmoke;
+        width: 400px;
+        padding: 20px;
+    }
+</style>
+
+<hgroup class="title">
+    <h1> <font face="verdana" color="DarkBlue">Welcome to Madampe Tea-Estate </font></h1>
+    <br />
+    <br />
+    <h2> <font face="verdana" color="DarkBlue">Production Management System</font> </h2>
+    <br />
+</hgroup>
+
+<section class="EmployeeHomePage_Content">
+
+    @if (Model.IsRedirectedAfterSave)
+    {
+        <div id="SaveSuccessMessage" class="popupWindow">
+            <font color="Red">@Model.OpperationMessage</font>
+            <br /><br />
+            <input type="button" value="OK" onclick=" closeSuccessMessage() " />
+        </div>
+    }
+
+    <div id="MenuItems">
+
+        <h3>Choose what you want to do :</h3>
+        <br />
+
+        <h3 style="color:DarkBlue;">Admin Tasks</h3>
+        <br />
+
+        <div class="float-left">
+
+            <a href="/Account/manage">  <img src="/Images/Acount_manage.jpg" alt="Manage Acount" style="width: 250px;" /> </a>
+
+            &nbsp;&nbsp;&nbsp;
+
+            <a href="/Account/register">  <img src="/Images/new_user.jpg" alt="Add Users" style="width: 250px;" /> </a>
+
+            &nbsp;&nbsp;&nbsp;
+
+            <a href="/Admin/GenerateReport">  <img src="/Images/reports.jpg" alt="Daily Reports" style="width: 250px;" /> </a>
+
+            &nbsp;&nbsp;&nbsp;
+
+            <a href="/Admin/AddEmployee">  <img src="/Images/add_employee.jpg" alt="Add Employee Details" style="width: 250px;" /> </a>
+            
+            
+             <br /><br />
+
+        </div>
+
+        <br />
+
+        <div class="float-left">
+
+
+            <h3 style="color:DarkBlue;">User Tasks</h3>
+            <br />
+
+            <a href="/Employee/AddCropDetails">  <img src="/Images/crop_details.jpg" alt="Crop Details" style="width: 250px;" /> </a>
+
+            &nbsp;&nbsp;&nbsp;
+
+            <a href="/Employee/PendingCropDetails">  <img src="/Images/sheduler.jpg" alt="Pending Crop Details" style="width: 250px;" /> </a>
+
+            &nbsp;&nbsp;&nbsp;
+
+            <a href="/Employee/AddSuppliers">  <img src="/Images/supplier_details.jpg" alt="Supplier Details" style="width: 250px;" /> </a>
+
+
+            @*<a href="">  <img src="/Images/search_details.jpg" alt="Search Details" style="width: 250px;" /> </a>
+
+
+                &nbsp;&nbsp;&nbsp;
+
+                <a href="/Employee/InProductionCropDetails">  <img src="" alt="In production Crop Details" style="width: 250px;" /> </a>*@
+
+        </div>
+    </div>
+
+</section>
